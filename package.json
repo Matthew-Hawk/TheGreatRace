@@ -24,7 +24,13 @@
     "test:pages": "node --test cloudflare-tests/*.test.js",
     "test:browser:pages": "node scripts/test-pages-browser.js",
     "check:scheduler": "wrangler deploy --config wrangler.scheduler.jsonc --dry-run --outdir .wrangler/scheduler-build",
-    "pages:check-config": "node scripts/check-pages-config.js"
+    "pages:check-config": "node scripts/check-pages-config.js",
+    "deploy": "wrangler deploy --config wrangler.worker.jsonc",
+    "check:worker": "wrangler deploy --config wrangler.worker.jsonc --dry-run --outdir .wrangler/worker-build",
+    "worker:dev": "wrangler dev --config wrangler.worker.jsonc",
+    "worker:migrate:local": "wrangler d1 migrations apply DB --local --config wrangler.worker.jsonc",
+    "worker:migrate:remote": "wrangler d1 migrations apply DB --remote --config wrangler.worker.jsonc",
+    "test:browser:worker": "node scripts/test-worker-browser.js"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.10.2",

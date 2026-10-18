@@ -4,6 +4,8 @@ The repository supports **Pages static assets + Pages Functions + D1**. You do n
 
 The app is prepared for deployment, but no Cloudflare account resources have been created or published by this change. Database IDs in the configuration are explicit placeholders.
 
+**If your deployment log runs `npx wrangler deploy` after the build, you created a Workers project.** Use [the Workers guide](cloudflare-workers.md) for that existing project, or create an actual Pages project to follow this guide. No separate API repository is required for either host.
+
 ## 1. Create and initialize D1
 
 Install dependencies and sign into your own Cloudflare account:

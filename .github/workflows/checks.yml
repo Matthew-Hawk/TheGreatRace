@@ -16,8 +16,10 @@ jobs:
       - run: npm run check
       - run: npm run build:pages
       - run: npm run check:scheduler
+      - run: npm run check:worker
       - run: npm test
       - run: npm run test:pages
       - run: npx playwright install --with-deps chromium
       - run: npm run test:browser
       - run: npm run test:browser:pages
+      - run: npm run test:browser:worker

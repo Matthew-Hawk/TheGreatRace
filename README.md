@@ -4,6 +4,8 @@ A candidate comparison app with an independently reviewed source behind every pu
 
 **Cloudflare Pages:** use build command `npm run build:pages`, output directory `public`, and a D1 binding named `DB`. Follow [the Pages deployment guide](docs/cloudflare-pages.md) to create the databases, replace configuration IDs, apply migrations, and set contributor secrets. The Node server is a separate local development option.
 
+**Cloudflare Workers dashboard:** use build command `npm run build` and deploy command `npm run deploy`. Follow [the Workers setup guide](docs/cloudflare-workers.md). A Pages configuration does not work with the dashboard's default `npx wrangler deploy` command. The website and API live in this one repository; both deployment options require a real D1 database and contributor secrets in your account.
+
 ## Run locally
 
 Use **Node.js 24.15 or newer** and npm. Node's built-in SQLite driver needs no external database service.

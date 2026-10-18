@@ -16,6 +16,7 @@
 - [x] Contributor documentation, formatter, typed frontend, and CI configuration.
 - [x] Pages Functions/D1 adapter, migrations, static routing, configuration, and setup guide.
 - [x] Separate preview database configuration and optional Cron Worker for source checks.
+- [x] Workers dashboard deployment entry point, asset binding, and explicit deploy command.
 
 ## Required owner decisions and content work
 

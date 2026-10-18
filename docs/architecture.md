@@ -6,6 +6,8 @@ The browser requests JSON from a Node HTTP server. Public comparison data and ed
 
 Cloudflare Pages is an alternative runtime: `functions/api/[[path]].js` dispatches requests to `cloudflare/api.js`, backed by async D1 queries and atomic `batch()` writes in `cloudflare/repository.js`. The portable domain validator and CSV parser are shared with Node. D1 migrations replace the Node SQLite URL function with built-in SQL shape/review constraints. Pages credentials live in encrypted Cloudflare secrets; Web Crypto HMAC checks credentials and versions sessions, and D1 persists token hashes. Node retains scrypt-backed local credentials. See [the Pages guide](cloudflare-pages.md) for deployment and platform differences.
 
+The Workers dashboard uses a separate entry point, `cloudflare/worker.js`, and `wrangler.worker.jsonc`. It routes API requests to that same Cloudflare API and serves the frontend through an ASSETS binding. Use `npm run deploy` to select this configuration explicitly; plain `wrangler deploy` would read the Pages configuration. No separate API service is needed. See [the Workers guide](cloudflare-workers.md).
+
 The visual direction is editorial: warm paper surfaces, forest-green navigation, Georgia headings, and a system sans-serif for controls. Party accents identify columns without rating either candidate. Real candidate claims and images are not used as decorative placeholders. Motion is limited to native state changes; reduced motion retains all information and actions.
 
 ## Follow one statement through the app
