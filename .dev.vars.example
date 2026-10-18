@@ -1,0 +1,5 @@
+# Copy to .dev.vars for `npm run pages:dev`. Never commit real values.
+RESEARCHER_PASSWORD=
+REVIEWER_PASSWORD=
+# At least 32 random characters. Rotating this invalidates all Pages sessions.
+SESSION_SECRET=

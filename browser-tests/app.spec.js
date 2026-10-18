@@ -5,6 +5,7 @@ import AxeBuilder from '@axe-core/playwright';
 test('public pages and sign-in have no automated WCAG AA violations', async ({ page }) => {
   for (const path of ['/compare', '/races', '/methodology', '/editorial']) {
     await page.goto(path);
+    await expect(page).toHaveURL(new RegExp(`${path}$`));
     await expect(page.locator('#app')).not.toHaveAttribute('aria-busy', 'true');
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])

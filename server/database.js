@@ -3,32 +3,7 @@ import { mkdirSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { validateSourceUrl } from './domain.js';
 
-const topicNames = [
-  ['taxes', 'Taxes and budget', 'Revenue, spending, and fiscal policy'],
-  ['education', 'Education', 'Schools, teachers, and higher education'],
-  ['healthcare', 'Healthcare', 'Access, coverage, and public health'],
-  ['economy', 'Economy, jobs and trade', 'Work, business, and international trade'],
-  ['immigration', 'Immigration', 'Border policy and immigration systems'],
-  ['energy', 'Energy and environment', 'Energy, climate, and natural resources'],
-  [
-    'foreign-policy',
-    'Foreign policy and national security',
-    'Diplomacy, defense, and international affairs',
-  ],
-  ['justice', 'Criminal justice and public safety', 'Courts, policing, and public safety'],
-  ['civil-rights', 'Civil rights and voting', 'Civil liberties and election policy'],
-  [
-    'reproductive-policy',
-    'Abortion and reproductive policy',
-    'Reproductive rights and legislation',
-  ],
-  ['guns', 'Guns', 'Firearms policy and legislation'],
-  ['culture', 'Social and cultural issues', 'Social policy and cultural questions'],
-  ['technology', 'Technology and privacy', 'Digital rights, privacy, and technology'],
-  ['veterans', 'Veterans', 'Services and support for veterans'],
-  ['housing', 'Housing', 'Housing supply, affordability, and access'],
-  ['agriculture', 'Agriculture and rural issues', 'Farming and rural communities'],
-];
+import { topicNames } from './seed-data.js';
 
 export function openDatabase(path = process.env.DATABASE_PATH || './data/great-race.sqlite') {
   if (path !== ':memory:') mkdirSync(dirname(resolve(path)), { recursive: true });

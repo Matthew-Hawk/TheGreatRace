@@ -4,6 +4,8 @@
 
 The browser requests JSON from a Node HTTP server. Public comparison data and editorial data have separate endpoints. SQLite owns persistence; TypeScript describes browser payloads. Native browser controls handle forms, navigation, and dialogs. CSS Grid owns page layout, and a semantic table owns the desktop comparison. On narrow screens, each topic stacks both candidates with explicit names.
 
+Cloudflare Pages is an alternative runtime: `functions/api/[[path]].js` dispatches requests to `cloudflare/api.js`, backed by async D1 queries and atomic `batch()` writes in `cloudflare/repository.js`. The portable domain validator and CSV parser are shared with Node. D1 migrations replace the Node SQLite URL function with built-in SQL shape/review constraints. Pages credentials live in encrypted Cloudflare secrets; Web Crypto HMAC checks credentials and versions sessions, and D1 persists token hashes. Node retains scrypt-backed local credentials. See [the Pages guide](cloudflare-pages.md) for deployment and platform differences.
+
 The visual direction is editorial: warm paper surfaces, forest-green navigation, Georgia headings, and a system sans-serif for controls. Party accents identify columns without rating either candidate. Real candidate claims and images are not used as decorative placeholders. Motion is limited to native state changes; reduced motion retains all information and actions.
 
 ## Follow one statement through the app
@@ -34,6 +36,8 @@ Records are append-oriented in this MVP. There is no in-place statement editor o
 Requests reject private and reserved IPv4 ranges, literal IP hosts, nonstandard ports, and destinations without public DNS. The checker pins a validated address to the connection and rechecks redirects. HEAD falls back to GET when explicitly unsupported; bodies are discarded. IPv6-only sources, bot protections, and timeouts can produce false failures and need human inspection.
 
 The timer runs only while the process is alive; it is not a durable scheduler. For unattended production checks, use a persistent scheduler invoking `npm run links:check` against the same database. Keep one scheduler owner when scaling.
+
+On Pages, optionally deploy the separate `cloudflare/scheduler.js` Worker with its production D1 binding. It checks five oldest records per hourly run and does not depend on a live Node process. The Pages API has shared D1-backed login/correction limits rather than an isolate-local counter. The static Pages output includes security headers and route rewrites; API responses set their own no-store and security headers.
 
 ## Authentication and deployment boundaries
 

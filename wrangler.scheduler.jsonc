@@ -1,0 +1,16 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "the-great-race-source-checks",
+  "main": "cloudflare/scheduler.js",
+  "compatibility_date": "2026-10-17",
+  "triggers": { "crons": ["0 * * * *"] },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "the-great-race",
+      // Set the SAME production database ID used in wrangler.jsonc.
+      "database_id": "00000000-0000-0000-0000-000000000000",
+    },
+  ],
+  "observability": { "enabled": true },
+}

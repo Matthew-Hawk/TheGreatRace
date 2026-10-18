@@ -2,6 +2,8 @@
 
 A candidate comparison app with an independently reviewed source behind every published statement. It includes public comparisons, topic and keyword filters, race discovery, a sourcing policy, and an authenticated editorial workspace.
 
+**Cloudflare Pages:** use build command `npm run build:pages`, output directory `public`, and a D1 binding named `DB`. Follow [the Pages deployment guide](docs/cloudflare-pages.md) to create the databases, replace configuration IDs, apply migrations, and set contributor secrets. The Node server is a separate local development option.
+
 ## Run locally
 
 Use **Node.js 24.15 or newer** and npm. Node's built-in SQLite driver needs no external database service.
@@ -42,12 +44,18 @@ server/
   migrations/        Versioned SQL schema and database constraints
   repository.js      Transactional statement, review, and audit writes
   csv.js             CSV parsing and atomic draft-only imports
+  csv-parser.js      Portable CSV validation shared with Pages
+  seed-data.js       Topic definitions shared with platform parity checks
   link-health.js     Restricted source requests and availability checks
 public/              HTML shell, readable CSS, favicon, generated assets
 scripts/             Seed and link-check entry points
 test/                Domain and HTTP tests with in-memory data
 browser-tests/       Desktop/mobile, editorial flow, accessibility tests
+functions/api/       Cloudflare Pages API entry point
+cloudflare/          Async D1 repository, Web Crypto sessions, scheduled Worker
+cloudflare-tests/    Real local D1 binding tests
 docs/architecture.md Request flow, trust boundaries, design decisions
+docs/cloudflare-pages.md Cloudflare setup, migrations, secrets, and deployment
 ```
 
 TypeScript compiles `client/` into ignored `public/assets/`. Edit source rather than generated JavaScript. The backend uses small JavaScript modules with comments explaining trust boundaries and editorial rules. Prettier keeps formatting consistent.
@@ -76,17 +84,20 @@ npm test              # Domain and HTTP integration tests
 npm run test:browser  # Edge locally; Chromium in CI
 npm run db:seed       # Idempotent migration/seed; no statement insertion
 npm run links:check   # Check verified sources now
+npm run build:pages   # Build frontend and validate Pages Functions compilation
+npm run test:pages    # Test the Pages API against an isolated D1 runtime
+npm run test:browser:pages # Same browser workflow on the compiled Pages Worker
 ```
 
 Local browser tests expect Microsoft Edge. GitHub Actions installs Chromium and runs the checks. Test statements are labeled **EXAMPLE ONLY** and stored in memory. Screenshots go to ignored `test-results/`. Test code and fixtures are never served by the application.
 
 The server checks source links every 24 hours while running, starting 24 hours after startup. Run `npm run links:check` for an immediate pass. An unavailable source creates one open review task, leaves the statement published, and displays a notice. Recovery resolves the link task. A working URL never substitutes for human verification.
 
-CSV imports accept up to 200 rows / 200 KB. Required headers: `candidate_id,topic_id,text,text_type,source_url,source_type,source_title`. Optional: `statement_date`. Use IDs from `/api/comparison`, `direct_quote` or `paraphrase` for text type, and `campaign`, `speech`, `interview`, `debate`, `official`, or `social_media` for source type. Leave unknown dates blank.
+CSV imports accept up to 200 rows locally or 20 on Pages, with a 200 KB file limit. Required headers: `candidate_id,topic_id,text,text_type,source_url,source_type,source_title`. Optional: `statement_date`. Use IDs from `/api/comparison`, `direct_quote` or `paraphrase` for text type, and `campaign`, `speech`, `interview`, `debate`, `official`, or `social_media` for source type. Leave unknown dates blank.
 
 ## Deployment and remaining work
 
-This is a working **local research MVP**, not a published election guide. See [LAUNCH_CHECKLIST.md](LAUNCH_CHECKLIST.md) for outstanding owner decisions and operational work. For a single-instance deployment: build assets, run `npm start` under a process manager, mount persistent storage for `DATABASE_PATH`, terminate HTTPS at a reverse proxy, set the public HTTPS `APP_ORIGIN`, and enable `COOKIE_SECURE=true`.
+This is a working research MVP with both Node and Cloudflare Pages deployment paths, not a published election guide. See [LAUNCH_CHECKLIST.md](LAUNCH_CHECKLIST.md) for outstanding owner decisions and operational work. For Cloudflare use [the Pages guide](docs/cloudflare-pages.md). For a single-instance Node deployment: build assets, run `npm start` under a process manager, mount persistent storage for `DATABASE_PATH`, terminate HTTPS at a reverse proxy, set the public HTTPS `APP_ORIGIN`, and enable `COOKIE_SECURE=true`.
 
 SQLite data and credentials stay out of source control. Use SQLite online backup facilities or stop the server before copying database files. Do not copy only the main database file during active WAL writes.
 

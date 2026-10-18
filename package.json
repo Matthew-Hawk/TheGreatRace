@@ -16,12 +16,21 @@
     "links:check": "node --env-file-if-exists=.env scripts/check-links.js",
     "test:browser": "playwright test",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "build:pages": "npm run build && wrangler pages functions build --outdir .wrangler/pages-build",
+    "pages:dev": "wrangler pages dev public",
+    "pages:migrate:local": "wrangler d1 migrations apply DB --local",
+    "pages:migrate:remote": "wrangler d1 migrations apply DB --remote",
+    "test:pages": "node --test cloudflare-tests/*.test.js",
+    "test:browser:pages": "node scripts/test-pages-browser.js",
+    "check:scheduler": "wrangler deploy --config wrangler.scheduler.jsonc --dry-run --outdir .wrangler/scheduler-build",
+    "pages:check-config": "node scripts/check-pages-config.js"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.10.2",
     "@playwright/test": "1.56.1",
     "prettier": "3.6.2",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "wrangler": "4.151.1"
   }
 }

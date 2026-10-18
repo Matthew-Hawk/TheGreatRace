@@ -6,6 +6,8 @@ Read the product rules and current implementation status in [README.md](README.m
 
 Follow the setup commands and file map in the README. The app is a local Node.js/SQLite MVP with a TypeScript frontend. Remaining launch work is tracked in LAUNCH_CHECKLIST.md.
 
+Cloudflare Pages uses the same frontend and validation with a separate async D1 adapter. Read [docs/cloudflare-pages.md](docs/cloudflare-pages.md), run `npm run build:pages` and `npm run test:pages` for API changes, and run `npm run test:browser:pages` for hosted workflow changes. Keep Node and D1 migrations aligned; their drivers and session formats differ, so do not copy the local SQLite file into D1.
+
 ## Write code others can follow
 
 - Use domain names consistently: `race`, `candidate`, `topic`, and `statement`. API payloads and SQL use `review_status` and `source_url`; local functions and variables use camelCase.

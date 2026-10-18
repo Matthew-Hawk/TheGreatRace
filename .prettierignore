@@ -3,3 +3,5 @@ public/assets
 data
 test-results
 package-lock.json
+.wrangler
+.dev.vars

@@ -14,6 +14,8 @@
 - [x] Domain/API and browser workflow tests with fictional, isolated data.
 - [x] Automated WCAG AA rule checks on all four public/sign-in pages.
 - [x] Contributor documentation, formatter, typed frontend, and CI configuration.
+- [x] Pages Functions/D1 adapter, migrations, static routing, configuration, and setup guide.
+- [x] Separate preview database configuration and optional Cron Worker for source checks.
 
 ## Required owner decisions and content work
 
@@ -27,6 +29,7 @@
 ## Required operational work before public launch
 
 - [ ] Select hosting and domain; this implementation has not been deployed.
+- [ ] For Pages, create D1 databases, configure their IDs and encrypted secrets, and apply migrations before launch.
 - [ ] Configure persistent storage, backups, and a tested restore procedure.
 - [ ] Set a real HTTPS APP_ORIGIN, secure cookies, strong credentials, and process supervision.
 - [ ] Replace the two role accounts with individual identities before expanding the team.
@@ -39,4 +42,4 @@
 
 ## Known initial limits
 
-The app covers one proposed race. The schema holds more races, but public routing and queries need expansion. Corrections use new drafts and flagging rather than an in-place editor. The audit log has no application delete action but is not tamper-proof against a database administrator. Rate limits and scheduling are process-local. Link checks do not establish factual accuracy or guarantee availability to every visitor.
+The app covers one proposed race. The schema holds more races, but public routing and queries need expansion. Corrections use new drafts and flagging rather than an in-place editor. The audit log has no application delete action but is not tamper-proof against a database administrator. Node rate limits and scheduling are process-local; Pages uses shared D1 login/correction limits and an optional separately deployed Cron Worker. Link checks do not establish factual accuracy or guarantee availability to every visitor.
