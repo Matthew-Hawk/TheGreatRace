@@ -1,0 +1,27 @@
+{
+  "name": "the-great-race",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.15.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node --env-file-if-exists=.env server/index.js",
+    "dev": "npm run build && npm start",
+    "test": "node --test test/*.test.js",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "db:seed": "node --env-file-if-exists=.env scripts/seed.js",
+    "links:check": "node --env-file-if-exists=.env scripts/check-links.js",
+    "test:browser": "playwright test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@playwright/test": "1.56.1",
+    "prettier": "3.6.2",
+    "typescript": "5.9.3"
+  }
+}
